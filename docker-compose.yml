@@ -1,0 +1,28 @@
+version: "3.3"
+
+services:
+  postgres:
+    container_name: postgresdb
+    image: postgres:12
+    restart: always
+    ports:
+      - 5432:5432
+    
+    env_file: 
+      - .env
+  
+  eagledaddycloud:
+    container_name: edcloud 
+    build: .
+    volumes: 
+      - .:/eagledaddycloud  # link src for immediate code updates
+    
+    depends_on: 
+      - postgres
+
+    env_file: 
+      - .env
+
+# notes
+# in production, remember to create persistent volume for postgres
+# otherwise, nothing will stay persistent long enough :D

@@ -1,0 +1,5 @@
+.edc/
+.dockerignore
+.gitignore
+graph_model.html
+*.pyc
