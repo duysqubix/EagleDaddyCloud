@@ -1,0 +1,5 @@
+mqtt:
+  port: 1883
+  host: mosquitto
+  transport: tcp
+  protocol: MQTTv311

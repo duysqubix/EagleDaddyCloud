@@ -10,7 +10,18 @@ services:
     
     env_file: 
       - .env
-  
+
+  mosquitto:
+    container_name: mosquitto
+    image: arm64v8/eclipse-mosquitto:latest
+
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./mosquitto.log:/mosquitto/log/mosquitto.log
+    ports:
+      - 1883:1883
+      - 9001:9001
+
   eagledaddycloud:
     container_name: edcloud 
     build: .
@@ -19,6 +30,7 @@ services:
     
     depends_on: 
       - postgres
+      - mosquitto
 
     env_file: 
       - .env
