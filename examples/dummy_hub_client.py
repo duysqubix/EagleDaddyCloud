@@ -7,6 +7,7 @@ import json
 sys.path.insert(0, '../')
 import time
 import logging
+import uuid
 from passphrase import Passphrase
 import paho.mqtt.client as mqtt
 from comms import Message, MessageInfo, VALID_CMD
@@ -15,10 +16,10 @@ logging.basicConfig(level=logging.INFO, filename='hub.log')
 
 
 class ConnectorId(Passphrase):
-    def __init__(self) -> None:
+    def __init__(self, n=1, w=3) -> None:
         super().__init__(inputfile='english.txt')
-        self.amount_n = 1
-        self.amount_w = 3
+        self.amount_n = n
+        self.amount_w = w
         self.generate()
         self.separator = '-'
 
@@ -28,10 +29,11 @@ class ConnectorId(Passphrase):
 
 # CONNECTOR_ID = str(ConnectorId())
 # DEVICE_ID = str(uuid.uuid4())
+# DEVICE_NAME = str(ConnectorId(w=2, n=0))
 
-CONNECTOR_ID = "nonprepositionally-definitized-enlisted-711641"
-DEVICE_NAME = "normal-dragon"
-DEVICE_ID = "6b429ab7-8d25-4a9d-8419-897b1b4f4577"
+CONNECTOR_ID = "exorcization-griqua-thermistor-376840"
+DEVICE_NAME = "sconced-shuttled"
+DEVICE_ID = "2dc134d0-fb3a-4fdf-bc40-4ed14f897430"
 
 ROOT_TOPIC = '/eagledaddy'
 ANNOUNCE_TOPIC = ROOT_TOPIC + '/announce'
@@ -54,6 +56,15 @@ DUMMY_NODE_2 = {
     'parent_device': b'\x00\x13\xa2\x00A\xbd3F'
 }
 
+DUMMY_NODE_3 = {
+    'id': 4,
+    'address64': b'\x00\x13\xa2\x00A\xb6%\xc8',
+    'node_id': 'deer_feeder_01',
+    'operating_mode': b'\x01',
+    'network_id': b'\x7f\xff',
+    'parent_device': b'\x00\x13\xa2\x00A\xbd3F'
+}
+
 
 def gen_message(params: dict) -> Message:
     """
@@ -69,10 +80,10 @@ def gen_message(params: dict) -> Message:
 
 
 def node_discovery():
-    global DUMMY_NODE_1, DUMMY_NODE_2
+    global DUMMY_NODE_1, DUMMY_NODE_2, DUMMY_NODE_3
     print("Discovering...")
     time.sleep(2)
-    nodes = [DUMMY_NODE_1, DUMMY_NODE_2]
+    nodes = [DUMMY_NODE_1, DUMMY_NODE_2, DUMMY_NODE_3]
 
     for idx, node in tuple(enumerate(nodes)):
         for k, v in tuple(node.items()):
@@ -87,44 +98,48 @@ class HubClient(mqtt.Client):
         self.id = DEVICE_ID
         self.connect_id = CONNECTOR_ID
         self.hub_name = DEVICE_NAME
-        super().__init__(transport=transport, client_id=self.id)
+        super().__init__(transport=transport)
 
     def _parse_incoming_message_and_reply(self, msg: Message):
-        cmd = msg.get('cmd', None)
-        if cmd:
-            r = dict()
-            r['cmd'] = cmd
-            if cmd == VALID_CMD.PING:
-                r['response'] = VALID_CMD.PONG
-                logging.info("REPLY: PONG")
+        try:
+            cmd = int(msg.get('cmd', None))
+        except ValueError:
+            cmd = VALID_CMD.UNKNOWN.value
+        r = dict()
+        r['cmd'] = cmd
+        if cmd == VALID_CMD.PING:
+            r['response'] = VALID_CMD.PONG
+            logging.info("REPLY: PONG")
 
-            elif cmd == VALID_CMD.ANNOUNCE_ACK:
-                logging.info("ANNOUNCE ACK recieved")
+        elif cmd == VALID_CMD.ANNOUNCE_ACK:
+            logging.info("ANNOUNCE ACK recieved")
+            return
 
-            elif cmd == VALID_CMD.DISCOVERY:
-                results = node_discovery()
-                results_j = json.dumps(results)
-                r['response'] = results_j
-                logging.info(f"REPLY: {results_j}")
+        elif cmd == VALID_CMD.DISCOVERY:
+            print("Discovering...")
+            results = node_discovery()
+            results_j = json.dumps(results)
+            r['response'] = results_j
+            logging.info(f"REPLY: {results_j}")
 
-            else:
-                r['response'] = VALID_CMD.UNKNOWN
-                logging.warning(f"UNKNOWN COMMAND: {cmd}")
+        else:
+            r['response'] = VALID_CMD.UNKNOWN
+            logging.warning(f"UNKNOWN COMMAND: {cmd}")
 
-            reply = gen_message(r)
-            info = self.send(reply)
-            logging.info(f"Reply: {info}")
+        reply = gen_message(r)
+        return self.send(reply)
 
     def on_message(self, client, userdata, msg: bytes):
-        print(msg.payload)
         msg = Message.decode(msg)
-        self._parse_incoming_message_and_reply(msg)
+        print("From cloud: ", VALID_CMD(msg['cmd']).name)
+
+        return self._parse_incoming_message_and_reply(msg)
 
     def on_publish(self, client, userdata, mid):
         pass
 
     def on_subscribe(self, client, userdata, mid, granted_qos):
-        print(f'subscribed to dedicated channel: {ROOT_TOPIC}/{DEVICE_ID}')
+        print(f"subscribed to dedicated channel: {self.listening_channel}")
 
     @property
     def listening_channel(self):
@@ -136,12 +151,15 @@ class HubClient(mqtt.Client):
 
     def run(self):
         port = 1883
-        host = "127.0.0.1"
+        # host = "127.0.0.1"
+        host = 'ed.qubixat.com'
         self.connect(host=host, port=port)
-        self.subscribe(self.listening_channel)
+        self.subscribe(self.listening_channel, qos=2)
+        self.loop_start()
 
         self.announce()
-        self.loop_forever()
+        while True:
+            pass
 
     def announce(self):
         """
@@ -150,7 +168,6 @@ class HubClient(mqtt.Client):
         msg = Message(hub_id=self.id,
                       connect_passphrase=self.connect_id,
                       hub_name=self.hub_name)
-
         self.send(msg, channel=ANNOUNCE_TOPIC)
 
     def stop(self):
@@ -158,6 +175,7 @@ class HubClient(mqtt.Client):
 
     def send(self, msg: Message, channel=None):
         channel = self.talking_channel if channel is None else channel
+        print(f"To Cloud: ({channel}) {msg}")
         info = self.publish(channel, msg.encode(), qos=2)
         return info
 

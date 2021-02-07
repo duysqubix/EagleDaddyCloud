@@ -1,5 +1,11 @@
 mqtt:
-  port: 1883
-  host: mosquitto
+  port: 1883        
+  host: ed.qubixat.com
   transport: tcp
   protocol: MQTTv311
+  qos: 2
+  root_channel: /eagledaddy
+proxy:
+  port: 6379
+  host: redis
+  channel: redis/eagledaddy/cmds

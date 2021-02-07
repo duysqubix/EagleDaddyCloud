@@ -1,5 +1,5 @@
 import redis
-import json
+import logging
 from django.views.generic.base import RedirectView
 from dashboard.forms import NewHubConnectForm
 from django.http.response import HttpResponseRedirect
@@ -11,6 +11,7 @@ from broker.models import ClientHubDevice, NodeModule
 
 from comms import VALID_CMD
 from EagleDaddyCloud.settings import CONFIG
+from broker.utils import send_proxy_data
 
 _REDIS_POOL = redis.ConnectionPool(host=CONFIG.proxy.host,
                                    port=int(CONFIG.proxy.port))
@@ -67,18 +68,15 @@ class DiscoverNewNodes(RedirectView):
 
     def do_discovery(self, hub_id):
         hub = ClientHubDevice.objects.filter(hub_id=hub_id).first()
-        with redis.Redis(connection_pool=_REDIS_POOL) as proxy:
-            cmd = {str(hub.hub_id): VALID_CMD.DISCOVERY.value}
-            proxy.publish(CONFIG.proxy.channel, json.dumps(cmd))
-        # # do discovery
-        # if hub:
-        #     _ = [x.delete() for x in hub.node.all()]
-        #     logging.info(f"MANAGER IS CONNECTED: {manager().is_connected()}")
-        #     manager().send_hub_command(hub, VALID_CMD.DISCOVERY)
 
-        #     print('discovering new hubs')
-        # else:
-        #     print('no hub found to send')
+        # send
+        # with redis.Redis(connection_pool=_REDIS_POOL) as proxy:
+        cmd = {str(hub.hub_id): VALID_CMD.DISCOVERY.value}
+        #     proxy.publish(CONFIG.proxy.channel, json.dumps(cmd))
+        success = send_proxy_data(_REDIS_POOL, cmd)
+        if not success:
+            logging.error("Unable to send data to proxy server.")
+            return
 
     def get(self, request, hub_id, *args, **kwargs):
         self.do_discovery(hub_id)

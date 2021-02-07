@@ -15,11 +15,10 @@ from django.contrib.auth import get_user_model
 
 from . import YamlLoader
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-CONFIG = YamlLoader.load(BASE_DIR/'config.yml')
+CONFIG = YamlLoader.load(BASE_DIR / 'config.yml')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -30,15 +29,19 @@ SECRET_KEY = 'x7t4mk=32z+n%@h8u=k92ff_&0h5$ek-e#j&8$cx7cnd*y6hdo'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
+
+LOGIN_REDIRECT_URL = '/dashboard'
+LOGOUT_REDIRECT_URL = '/dashboard'
 
 INSTALLED_APPS = [
     'django.contrib.admin', 'django.contrib.auth',
     'django.contrib.contenttypes', 'django.contrib.sessions',
     'django.contrib.messages', 'django.contrib.staticfiles',
-    'django_extensions', 'edc_MQTTBroker', 'edc_ClientAccount', 'edc_HubDevice'
+    'django_extensions', "widget_tweaks", 'ClientAccount', 'dashboard',
+    'accounts', 'broker'
 ]
 
 MIDDLEWARE = [
@@ -136,3 +139,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (str(BASE_DIR.joinpath('static')), )

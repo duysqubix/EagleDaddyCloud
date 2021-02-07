@@ -115,23 +115,23 @@ django_contrib_auth_models_User [label=<
       >];
 }
 
-subgraph cluster_edc_MQTTBroker {
+subgraph cluster_edc_ChannelManager {
 color=olivedrab4;
 label=<
           <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0">
           <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER">
           <FONT FACE="Roboto" COLOR="Black" POINT-SIZE="10">
-          <B>edc_MQTTBroker</B>
+          <B>edc_ChannelManager</B>
           </FONT>
           </TD></TR>
           </TABLE>
           >;
 style="rounded";
-edc_MQTTBroker_models_Topic [label=<
+edc_ChannelManager_models_ClientHubDevice [label=<
       <TABLE BGCOLOR="white" BORDER="1" CELLBORDER="0" CELLSPACING="0">
       <TR><TD COLSPAN="2" CELLPADDING="5" ALIGN="CENTER" BGCOLOR="#1b563f">
       <FONT FACE="Roboto" COLOR="white" POINT-SIZE="10"><B>
-      Topic
+      ClientHubDevice
       </B></FONT></TD></TR>
     
     
@@ -144,65 +144,23 @@ edc_MQTTBroker_models_Topic [label=<
     
     
       <TR><TD ALIGN="LEFT" BORDER="0">
-      <FONT FACE="Roboto">topic</FONT>
+      <FONT FACE="Roboto"><B>account</B></FONT>
       </TD><TD ALIGN="LEFT">
-      <FONT FACE="Roboto">CharField</FONT>
-      </TD></TR>
-    
-    
-      </TABLE>
-      >];
-edc_MQTTBroker_models_Channel [label=<
-      <TABLE BGCOLOR="white" BORDER="1" CELLBORDER="0" CELLSPACING="0">
-      <TR><TD COLSPAN="2" CELLPADDING="5" ALIGN="CENTER" BGCOLOR="#1b563f">
-      <FONT FACE="Roboto" COLOR="white" POINT-SIZE="10"><B>
-      Channel
-      </B></FONT></TD></TR>
-    
-    
-      <TR><TD ALIGN="LEFT" BORDER="0">
-      <FONT FACE="Roboto"><B>id</B></FONT>
-      </TD><TD ALIGN="LEFT">
-      <FONT FACE="Roboto"><B>AutoField</B></FONT>
-      </TD></TR>
-    
-    
-    
-      <TR><TD ALIGN="LEFT" BORDER="0">
-      <FONT FACE="Roboto"><B>hub</B></FONT>
-      </TD><TD ALIGN="LEFT">
-      <FONT FACE="Roboto"><B>OneToOneField (id)</B></FONT>
-      </TD></TR>
-    
-    
-    
-      <TR><TD ALIGN="LEFT" BORDER="0">
-      <FONT FACE="Roboto"><B>topic</B></FONT>
-      </TD><TD ALIGN="LEFT">
-      <FONT FACE="Roboto"><B>OneToOneField (id)</B></FONT>
-      </TD></TR>
-    
-    
-      </TABLE>
-      >];
-edc_MQTTBroker_models_AnnounceMessage [label=<
-      <TABLE BGCOLOR="white" BORDER="1" CELLBORDER="0" CELLSPACING="0">
-      <TR><TD COLSPAN="2" CELLPADDING="5" ALIGN="CENTER" BGCOLOR="#1b563f">
-      <FONT FACE="Roboto" COLOR="white" POINT-SIZE="10"><B>
-      AnnounceMessage
-      </B></FONT></TD></TR>
-    
-    
-      <TR><TD ALIGN="LEFT" BORDER="0">
-      <FONT FACE="Roboto"><B>id</B></FONT>
-      </TD><TD ALIGN="LEFT">
-      <FONT FACE="Roboto"><B>AutoField</B></FONT>
+      <FONT FACE="Roboto"><B>ForeignKey (id)</B></FONT>
       </TD></TR>
     
     
     
       <TR><TD ALIGN="LEFT" BORDER="0">
       <FONT FACE="Roboto">connect_passphrase</FONT>
+      </TD><TD ALIGN="LEFT">
+      <FONT FACE="Roboto">CharField</FONT>
+      </TD></TR>
+    
+    
+    
+      <TR><TD ALIGN="LEFT" BORDER="0">
+      <FONT FACE="Roboto">current_state</FONT>
       </TD><TD ALIGN="LEFT">
       <FONT FACE="Roboto">CharField</FONT>
       </TD></TR>
@@ -218,9 +176,90 @@ edc_MQTTBroker_models_AnnounceMessage [label=<
     
     
       <TR><TD ALIGN="LEFT" BORDER="0">
+      <FONT FACE="Roboto">hub_name</FONT>
+      </TD><TD ALIGN="LEFT">
+      <FONT FACE="Roboto">CharField</FONT>
+      </TD></TR>
+    
+    
+    
+      <TR><TD ALIGN="LEFT" BORDER="0">
       <FONT FACE="Roboto">last_checkin</FONT>
       </TD><TD ALIGN="LEFT">
       <FONT FACE="Roboto">DateTimeField</FONT>
+      </TD></TR>
+    
+    
+    
+      <TR><TD ALIGN="LEFT" BORDER="0">
+      <FONT FACE="Roboto">last_message</FONT>
+      </TD><TD ALIGN="LEFT">
+      <FONT FACE="Roboto">CharField</FONT>
+      </TD></TR>
+    
+    
+      </TABLE>
+      >];
+edc_ChannelManager_models_NodeModule [label=<
+      <TABLE BGCOLOR="white" BORDER="1" CELLBORDER="0" CELLSPACING="0">
+      <TR><TD COLSPAN="2" CELLPADDING="5" ALIGN="CENTER" BGCOLOR="#1b563f">
+      <FONT FACE="Roboto" COLOR="white" POINT-SIZE="10"><B>
+      NodeModule
+      </B></FONT></TD></TR>
+    
+    
+      <TR><TD ALIGN="LEFT" BORDER="0">
+      <FONT FACE="Roboto"><B>id</B></FONT>
+      </TD><TD ALIGN="LEFT">
+      <FONT FACE="Roboto"><B>AutoField</B></FONT>
+      </TD></TR>
+    
+    
+    
+      <TR><TD ALIGN="LEFT" BORDER="0">
+      <FONT FACE="Roboto"><B>hub</B></FONT>
+      </TD><TD ALIGN="LEFT">
+      <FONT FACE="Roboto"><B>ForeignKey (id)</B></FONT>
+      </TD></TR>
+    
+    
+    
+      <TR><TD ALIGN="LEFT" BORDER="0">
+      <FONT FACE="Roboto">address</FONT>
+      </TD><TD ALIGN="LEFT">
+      <FONT FACE="Roboto">CharField</FONT>
+      </TD></TR>
+    
+    
+    
+      <TR><TD ALIGN="LEFT" BORDER="0">
+      <FONT FACE="Roboto">hub_node_id</FONT>
+      </TD><TD ALIGN="LEFT">
+      <FONT FACE="Roboto">CharField</FONT>
+      </TD></TR>
+    
+    
+    
+      <TR><TD ALIGN="LEFT" BORDER="0">
+      <FONT FACE="Roboto">network_id</FONT>
+      </TD><TD ALIGN="LEFT">
+      <FONT FACE="Roboto">CharField</FONT>
+      </TD></TR>
+    
+    
+    
+      <TR><TD ALIGN="LEFT" BORDER="0">
+      <FONT FACE="Roboto">node_id</FONT>
+      </TD><TD ALIGN="LEFT">
+      <FONT FACE="Roboto">CharField</FONT>
+      </TD></TR>
+    
+    
+    
+      <TR><TD ALIGN="LEFT" BORDER="0">
+      <FONT FACE="Roboto">operating_mode</FONT>
+      </TD><TD ALIGN="LEFT">
+      <FONT FACE="Roboto">CharField</FONT>
       </TD></TR>
     
     
@@ -267,55 +306,7 @@ edc_ClientAccount_models_ClientAccount [label=<
       >];
 }
 
-subgraph cluster_edc_HubDevice {
-color=olivedrab4;
-label=<
-          <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0">
-          <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER">
-          <FONT FACE="Roboto" COLOR="Black" POINT-SIZE="10">
-          <B>edc_HubDevice</B>
-          </FONT>
-          </TD></TR>
-          </TABLE>
-          >;
-style="rounded";
-edc_HubDevice_models_ClientHubDevice [label=<
-      <TABLE BGCOLOR="white" BORDER="1" CELLBORDER="0" CELLSPACING="0">
-      <TR><TD COLSPAN="2" CELLPADDING="5" ALIGN="CENTER" BGCOLOR="#1b563f">
-      <FONT FACE="Roboto" COLOR="white" POINT-SIZE="10"><B>
-      ClientHubDevice
-      </B></FONT></TD></TR>
-    
-    
-      <TR><TD ALIGN="LEFT" BORDER="0">
-      <FONT FACE="Roboto"><B>id</B></FONT>
-      </TD><TD ALIGN="LEFT">
-      <FONT FACE="Roboto"><B>AutoField</B></FONT>
-      </TD></TR>
-    
-    
-    
-      <TR><TD ALIGN="LEFT" BORDER="0">
-      <FONT FACE="Roboto"><B>account</B></FONT>
-      </TD><TD ALIGN="LEFT">
-      <FONT FACE="Roboto"><B>ForeignKey (id)</B></FONT>
-      </TD></TR>
-    
-    
-    
-      <TR><TD ALIGN="LEFT" BORDER="0">
-      <FONT FACE="Roboto">hub_id</FONT>
-      </TD><TD ALIGN="LEFT">
-      <FONT FACE="Roboto">UUIDField</FONT>
-      </TD></TR>
-    
-    
-      </TABLE>
-      >];
-}
-
-edc_MQTTBroker_models_Channel -> edc_MQTTBroker_models_Topic  [arrowhead=none, arrowtail=none, dir=both, label=" topic (channel)"];
-edc_MQTTBroker_models_Channel -> edc_HubDevice_models_ClientHubDevice  [arrowhead=none, arrowtail=none, dir=both, label=" hub (channel)"];
+edc_ChannelManager_models_ClientHubDevice -> edc_ClientAccount_models_ClientAccount  [arrowhead=none, arrowtail=dot, dir=both, label=" account (hub)"];
+edc_ChannelManager_models_NodeModule -> edc_ChannelManager_models_ClientHubDevice  [arrowhead=none, arrowtail=dot, dir=both, label=" hub (hub)"];
 edc_ClientAccount_models_ClientAccount -> django_contrib_auth_models_User  [arrowhead=none, arrowtail=none, dir=both, label=" user (account)"];
-edc_HubDevice_models_ClientHubDevice -> edc_ClientAccount_models_ClientAccount  [arrowhead=none, arrowtail=dot, dir=both, label=" account (hub)"];
 }

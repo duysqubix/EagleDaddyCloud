@@ -7,20 +7,26 @@ services:
     restart: always
     ports:
       - 5432:5432
-    
     env_file: 
       - .env
 
-  mosquitto:
-    container_name: mosquitto
-    image: arm64v8/eclipse-mosquitto:latest
+  # mosquitto:
+  #   container_name: mosquitto
+  #   image: arm64v8/eclipse-mosquitto:latest
 
-    volumes:
-      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
-      - ./mosquitto.log:/mosquitto/log/mosquitto.log
+  #   volumes:
+  #     - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+  #     - ./mosquitto.log:/mosquitto/log/mosquitto.log
+  #   ports:
+  #     - 1883:1883
+  #     - 9001:9001
+
+  redis:
+    container_name: redis
+    image: arm64v8/redis:latest
+
     ports:
-      - 1883:1883
-      - 9001:9001
+      - 6379:6379
 
   eagledaddycloud:
     container_name: edcloud 
@@ -30,7 +36,11 @@ services:
     
     depends_on: 
       - postgres
-      - mosquitto
+      # - mosquitto
+      - redis
+
+    ports:
+      - 8080:8080
 
     env_file: 
       - .env
