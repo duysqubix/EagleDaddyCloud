@@ -1,0 +1,65 @@
+
+Hub Device:
+After setting up a new hub device (automagically connecting to your local network), it would send message with the following json structure:
+
+{ 
+  'hub_id': <uuid>, 
+  'connect_id': <random_string_used_to_connect_hub_to_account> # another random-passphrase
+}
+
+on mqtt to the channel `/eagledaddy/announce` and listen for an ack response on the `/eagledaddy/announce/rx/<ID>` for an ack within a certain
+time frame.
+
+-----------------------------------------------------------------
+
+Cloud Platform:
+The cloud platform will always listen to the channel `eagledaddy/announce` for incoming messages from a hub checking in. Insert new device
+or update last check-in status in database
+
+-----------------------------------------------------------------
+
+Steps to connecting Hub to Cloud Account.
+
+1. Create EagleDaddyCloud Account
+2. Connect to EagleDaddyHub Device
+3. Select Wifi Network from startpage url
+4. Enter connect_id into cloud account,<add-hub> section
+
+-----------------------------------------------------------------
+
+Hub <--> Cloud Communications:
+
+The cloud and device will have a bidirectional communication on a dedicated channel(s).
+
+If the same topic is used, then when either side publishes, it echoes back. To avoid this we create a sub topic
+where one will listen, while the other is used for talking.
+
+For Cloud to speak to Hub, 
+Hub will subscribe to /<ID>/cloud topic
+
+      publishes
+Hub <----------- Cloud
+/eagledaddy/<ID>/cloud  (Hub will subscribe to this topic)
+
+
+For Hub to speak to Cloud
+Cloud will  subscribe to /<ID topic
+
+     publishes
+Hub -----------> Cloud
+/eagledaddy/<ID>  (Cloud will subscribe to this topic)
+--------------------------------------------------------------
+
+Valid commands understandable by Hub Device
+
+ - PING      # test connection between hub and cloud
+  - response: {'response': <PONG_ID>}
+
+ - DIAG      # report back diagnostic information of hub device
+  - response: {tbd}
+
+ - DISCOVERY # performs a discover all of nodes reachable by the hub device.
+  - response: {'response': [list-of-modules-json-valid]}
+
+ - TOGGLE_SWITCH # peforms a toggle on a switch
+  - response: {'response': <current_state>'}

@@ -1,0 +1,18 @@
+{% extends "dashboard_base.html" %}
+{% block selected_hub%}
+
+{% if selected_node and selected_hub %}
+<br>
+<br>
+<div class='row'>
+    <div class='col s9'>
+        <h3>Node: {{selected_node.node_id.title}}</h3>
+        <h5> Hub: {{selected_hub.hub_name.title}}</h5>
+
+        <hr>
+    </div>
+    <div class='col s3'>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

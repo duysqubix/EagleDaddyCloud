@@ -1,0 +1,51 @@
+INFO:root:recieved {'ack': True, 'payload': '', 'response': ''}
+INFO:root:recieved {'ack': False, 'payload': '', 'response': ''}
+INFO:root:recieved {'ack': True, 'payload': ''}
+INFO:root:recieved {'ack': False, 'payload': 'request temp'}
+INFO:root:recieved {'ack': True, 'payload': ''}
+INFO:root:recieved {'ack': True, 'payload': ''}
+INFO:root:recieved {'ack': True, 'payload': ''}
+INFO:root:recieved {'ack': True, 'payload': ''}
+INFO:root:recieved {'ack': True, 'payload': ''}
+INFO:root:recieved {'ack': False, 'payload': 'get temp'}
+INFO:root:recieved {'ack': True, 'payload': ''}
+INFO:root:recieved {'ack': True, 'payload': ''}
+INFO:root:recieved {'ack': True}
+INFO:root:recieved {'ack': True}
+INFO:root:recieved {'ack': True}
+INFO:root:recieved {'ack': True}
+INFO:root:recieved {'ack': True}
+INFO:root:recieved {'ack': False, 'foo': 'bar', 'cmd': 'yes'}
+INFO:root:recieved {'ack': False, 'foo': 'bar', 'cmd': 'yes'}
+INFO:root:recieved {'ack': True}
+INFO:root:recieved {'ack': False, 'foo': 'bar'}
+INFO:root:recieved {'ack': False, 'foo': 'bar'}
+INFO:root:{'rc': 'No error.', 'mid': 'MessageId: 2'}
+INFO:root:Reply: (0, 3)
+INFO:root:Reply: (0, 3)
+INFO:root:Reply: (0, 3)
+INFO:root:Reply: (0, 3)
+INFO:root:Reply: (0, 3)
+INFO:root:Reply: (0, 3)
+INFO:root:Reply: (0, 4)
+INFO:root:ANNOUNCE ACK recieved
+INFO:root:Reply: (0, 3)
+INFO:root:ANNOUNCE ACK recieved
+INFO:root:Reply: (0, 3)
+INFO:root:ANNOUNCE ACK recieved
+INFO:root:Reply: (0, 3)
+INFO:root:Reply: (0, 4)
+INFO:root:ANNOUNCE ACK recieved
+INFO:root:Reply: (0, 3)
+INFO:root:ANNOUNCE ACK recieved
+INFO:root:Reply: (0, 3)
+INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
+INFO:root:Reply: (0, 4)
+INFO:root:ANNOUNCE ACK recieved
+INFO:root:Reply: (0, 3)
+INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
+INFO:root:Reply: (0, 4)
+INFO:root:ANNOUNCE ACK recieved
+INFO:root:Reply: (0, 3)
+INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
+INFO:root:Reply: (0, 4)

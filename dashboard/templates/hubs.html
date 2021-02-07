@@ -1,0 +1,91 @@
+{% extends 'dashboard.html' %}
+
+{% block dashboard_content %}
+
+
+{% block style %}
+<style>
+    .btn-discover {
+        background-color: #8064A2 !important;
+    }
+</style>
+
+{% endblock style %}
+
+
+<hr>
+{% if not hubs %}
+No Hubs Found, connect to one.
+<form method="POST" action="{% url 'connect_new_hub' %}">
+    <div class="row">
+        {% csrf_token %}
+        <div class="col-2">
+            {{new_hub_form}}
+            <input type="submit" class="btn mt-2 btn-primary" data-dismiss="modal" value="Connect">
+        </div>
+    </div>
+</form>
+{% else %}
+{% for hub in hubs %}
+<h4 class="mt-2">{{hub.hub_name.title}}</h4>
+
+<div class="row">
+    <div class="col-2 bg-error">
+        <a class="btn btn-danger mt-2 shadow" href="{% url 'hub_discover' hub.hub_id%}">Discover</a>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary mt-2 shadow " data-toggle="modal" data-target="#hub_meta_data">
+            Info
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="hub_meta_data" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{hub.hub_name.title}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Hub Id: <br><b>{{hub.hub_id}}</b></p><br>
+                        <p>Connect Phrase: <br><b>{{hub.connect_passphrase}}</b></p><br>
+                        <p>Assigned to: <br><b>{{hub.account.user.username.title}}</b></p><br>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="row mt-5">
+    <div class="col">
+        {% if hub.node.all %}
+        {% for node in hub.node.all %}
+        <div class="card mt-3" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{node.node_id.title}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{node.address}}</h6>
+                <a href="{% url 'node_remove' node.address %}" class="card-link">Remove</a>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% else %}
+        <p>No Nodes Found.</p>
+        {% endif %}
+
+    </div>
+</div>
+<hr>
+{% endfor %}
+{% endif %}
+
+
+
+{% endblock dashboard_content %}

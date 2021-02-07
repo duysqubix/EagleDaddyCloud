@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Test
+{% endblock title %}
+{% block body %}
+
+
+<div class="container">
+
+    <div class="row  ">
+        <br><br>
+        <div class=" col"></div>
+        <div class="col-sm-3 align-self-center">
+            <img src="{% static '/images/logo.jpg' %}" class="img-fluid"></img>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p}}
+                {% comment %} <div class="mb-3">
+                    <label for="username" class="form-label"><b>Username</b></label>
+                    <input type="text" class="form-control" id="username">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label"><b>Password</b></label>
+                    <input type="password" class="form-control" id="password">
+                </div> {% endcomment %}
+                <button type="submit">Log In</button>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+
+
+{% comment %} <h2>Log In</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Log In</button>
+</form> {% endcomment %}
+
+{% endblock body %}

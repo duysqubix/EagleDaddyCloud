@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+<div class='row flex'>
+    <div class='col s3 z-depth-5 blue-grey lighten-5'>
+
+        <br>
+        <button data-target="modal1" class="btn modal-trigger red lighten-1"><i
+                class='material-icons right'>add_box</i>New
+            Hub</button>
+        <!-- Modal Structure -->
+        <div id="modal1" class="modal">
+            <form method="POST" action="{% url 'hub_account_connect' %}">
+                {% csrf_token %}
+                <div class="modal-content">
+                    <div class="input-field col s6">
+                        <input placeholder="my-passphrase" name="passphrase" type="text" class="validate">
+                        <label for="passphrase">Connect Passphrase</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type='submit' class="modal-close waves-effect waves-green btn-flat">ENTER</button>
+                </div>
+            </form>
+        </div>
+        <hr>
+
+        <ul class="collapsible">
+            {% comment %} Have this collapsible contain hub and related nodes {% endcomment %}
+            {% if hubs %}
+            {% for hub in hubs %}
+            <li>
+                <div class="collapsible-header blue-grey lighten-4"><i class="material-icons">device_hub</i>
+                    {{hub.hub_name}}
+                    &nbsp;
+                    <form method="POST" action="{% url 'discover_nodes' hub.hub_name %}">
+                        {% csrf_token %}
+                        <button type='submit' class='btn-small waves-effect waves-light red tooltipped'
+                            data-position='top' data-tooltip="Discover new nodes.">Discovery </button>
+                    </form>
+                </div>
+                {% for node in hub.node.all %}
+
+                <a href="{% url 'node_info' hub.hub_name node.address %}"
+                    class="collapsible-body waves-effect waves-red btn-flat btn-small left-align blue-grey lighten-1"><i
+                        class="material-icons left">donut_small</i>{{node.node_id}}
+                </a>
+
+                {% endfor %}
+
+            </li>
+            {% endfor %}
+            {% else %}
+            <li>No Hubs Found.</li>
+            {% endif %}
+
+        </ul>
+    </div>
+    <div class='col s9'>
+        {% block selected_hub%} {% endblock %}
+    </div>
+
+</div>
+{% block dashboard %}{% endblock %}
+{% endblock %}

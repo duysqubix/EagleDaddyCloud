@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+Test
+{% endblock title %}
+{% block body %}
+
+
+<div class="container">
+
+    <div class="row  ">
+        <br><br>
+        <div class=" col"></div>
+        <div class="col-sm-3 align-self-center">
+            <img src="{% static '/images/logo_full.png' %}" class="img-fluid"></img>
+            <hr>
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form.visible_fields %} <div class='mb-3'>
+                    <label class="form-label" for="{{ field.auto_id }}"><b>{{ field.label }}</b></label>
+                    {{field|add_class:"form-control"}}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Log In</button>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+{% endblock body %}
