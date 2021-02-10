@@ -1,90 +1,91 @@
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:REPLY: PONG
-INFO:root:REPLY: PONG
-INFO:root:REPLY: PONG
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:REPLY: PONG
-INFO:root:REPLY: PONG
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:REPLY: PONG
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:REPLY: PONG
-INFO:root:REPLY: PONG
-INFO:root:REPLY: PONG
-INFO:root:REPLY: PONG
-INFO:root:REPLY: PONG
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:REPLY: PONG
-INFO:root:REPLY: PONG
-INFO:root:REPLY: PONG
-INFO:root:REPLY: PONG
-INFO:root:REPLY: PONG
-INFO:root:REPLY: PONG
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:REPLY: PONG
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:REPLY: PONG
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:REPLY: PONG
-INFO:root:REPLY: PONG
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:ANNOUNCE ACK recieved
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
-INFO:root:REPLY: [{"id": 1, "address64": "0013a20041bd2a7a", "node_id": "test0", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 2, "address64": "0013a20041b625b5", "node_id": "test1", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}, {"id": 4, "address64": "0013a20041b625c8", "node_id": "deer_feeder_01", "operating_mode": "01", "network_id": "7fff", "parent_device": "0013a20041bd3346"}]
+INFO:root:Device ID: 9b4a8804-ad76-471d-840e-10560a9dfa63
+INFO:root:Connect ID: rebuttoned-athyridae-atwain-629156
+INFO:root:Device Name: poleward-nongratification
+DEBUG:root:Initializing client with: {'client_id': '9b4a8804-ad76-471d-840e-10560a9dfa63', 'protocol': 4, 'transport': 'tcp', 'clean_session': False}
+DEBUG:root:Connecting to broker ed.qubixat.com:1883
+INFO:root:Root subscription for 9b4a8804-ad76-471d-840e-10560a9dfa63 not found, creating one from supplied channel: /eagledaddy/9b4a8804-ad76-471d-840e-10560a9dfa63/#
+INFO:root:Client 9b4a8804-ad76-471d-840e-10560a9dfa63 created callback for /eagledaddy/9b4a8804-ad76-471d-840e-10560a9dfa63/cloud
+DEBUG:root:attaching command to packet: announce
+DEBUG:root:attaching payload to packet: {'connect_passphrase': 'rebuttoned-athyridae-atwain-629156', 'hub_id': '9b4a8804-ad76-471d-840e-10560a9dfa63', 'hub_name': 'poleward-nongratification'}
+DEBUG:root:attaching sender to packet: 9b4a8804-ad76-471d-840e-10560a9dfa63
+DEBUG:root:9b4a8804-ad76-471d-840e-10560a9dfa63 publish payload on /eagledaddy/announce: packet size 0.33KB
+DEBUG:root:callback triggered for ffffffff-ffff-ffff-ffff-ffffffffffff
+DEBUG:root:attaching command to packet: discovery
+DEBUG:root:attaching payload to packet: [{'id': 1, 'address64': '0013a20041bd2a7a', 'node_id': 'test0', 'operating_mode': '01', 'network_id': '7fff', 'parent_device': '0013a20041bd3346'}, {'id': 2, 'address64': '0013a20041b625b5', 'node_id': 'test1', 'operating_mode': '01', 'network_id': '7fff', 'parent_device': '0013a20041bd3346'}, {'id': 4, 'address64': '0013a20041b625c8', 'node_id': 'deer_feeder_01', 'operating_mode': '01', 'network_id': '7fff', 'parent_device': '0013a20041bd3346'}]
+DEBUG:root:attaching sender to packet: 9b4a8804-ad76-471d-840e-10560a9dfa63
+DEBUG:root:9b4a8804-ad76-471d-840e-10560a9dfa63 publish payload on /eagledaddy/9b4a8804-ad76-471d-840e-10560a9dfa63: packet size 0.48KB
+DEBUG:root:ignoring unhandeld subscription: /eagledaddy/9b4a8804-ad76-471d-840e-10560a9dfa63, size of data 0.48KB
+INFO:root:Device ID: 9b4a8804-ad76-471d-840e-10560a9dfa63
+INFO:root:Connect ID: rebuttoned-athyridae-atwain-629156
+INFO:root:Device Name: poleward-nongratification
+DEBUG:root:Initializing client with: {'client_id': '9b4a8804-ad76-471d-840e-10560a9dfa63', 'protocol': 4, 'transport': 'tcp', 'clean_session': False}
+DEBUG:root:Connecting to broker ed.qubixat.com:1883
+INFO:root:Root subscription for 9b4a8804-ad76-471d-840e-10560a9dfa63 not found, creating one from supplied channel: /eagledaddy/9b4a8804-ad76-471d-840e-10560a9dfa63/#
+INFO:root:Client 9b4a8804-ad76-471d-840e-10560a9dfa63 created callback for /eagledaddy/9b4a8804-ad76-471d-840e-10560a9dfa63/cloud
+DEBUG:root:attaching command to packet: announce
+DEBUG:root:attaching payload to packet: {'connect_passphrase': 'rebuttoned-athyridae-atwain-629156', 'hub_id': '9b4a8804-ad76-471d-840e-10560a9dfa63', 'hub_name': 'poleward-nongratification'}
+DEBUG:root:attaching sender to packet: 9b4a8804-ad76-471d-840e-10560a9dfa63
+DEBUG:root:9b4a8804-ad76-471d-840e-10560a9dfa63 publish payload on /eagledaddy/announce: packet size 0.33KB
+DEBUG:root:callback triggered for ffffffff-ffff-ffff-ffff-ffffffffffff
+DEBUG:root:attaching command to packet: discovery
+DEBUG:root:attaching payload to packet: [{'id': 1, 'address64': '0013a20041bd2a7a', 'node_id': 'test0', 'operating_mode': '01', 'network_id': '7fff', 'parent_device': '0013a20041bd3346'}, {'id': 2, 'address64': '0013a20041b625b5', 'node_id': 'test1', 'operating_mode': '01', 'network_id': '7fff', 'parent_device': '0013a20041bd3346'}, {'id': 4, 'address64': '0013a20041b625c8', 'node_id': 'deer_feeder_01', 'operating_mode': '01', 'network_id': '7fff', 'parent_device': '0013a20041bd3346'}]
+DEBUG:root:attaching sender to packet: 9b4a8804-ad76-471d-840e-10560a9dfa63
+DEBUG:root:9b4a8804-ad76-471d-840e-10560a9dfa63 publish payload on /eagledaddy/9b4a8804-ad76-471d-840e-10560a9dfa63: packet size 0.48KB
+DEBUG:root:ignoring unhandeld subscription: /eagledaddy/9b4a8804-ad76-471d-840e-10560a9dfa63, size of data 0.48KB
+INFO:root:Device ID: 9b4a8804-ad76-471d-840e-10560a9dfa63
+INFO:root:Connect ID: rebuttoned-athyridae-atwain-629156
+INFO:root:Device Name: poleward-nongratification
+DEBUG:root:Initializing client with: {'client_id': '9b4a8804-ad76-471d-840e-10560a9dfa63', 'protocol': 4, 'transport': 'tcp', 'clean_session': False}
+DEBUG:root:Connecting to broker ed.qubixat.com:1883
+INFO:root:Root subscription for 9b4a8804-ad76-471d-840e-10560a9dfa63 not found, creating one from supplied channel: /eagledaddy/9b4a8804-ad76-471d-840e-10560a9dfa63/#
+INFO:root:Client 9b4a8804-ad76-471d-840e-10560a9dfa63 created callback for /eagledaddy/9b4a8804-ad76-471d-840e-10560a9dfa63/cloud
+DEBUG:root:attaching command to packet: announce
+DEBUG:root:attaching payload to packet: {'connect_passphrase': 'rebuttoned-athyridae-atwain-629156', 'hub_id': '9b4a8804-ad76-471d-840e-10560a9dfa63', 'hub_name': 'poleward-nongratification'}
+DEBUG:root:attaching sender to packet: 9b4a8804-ad76-471d-840e-10560a9dfa63
+DEBUG:root:9b4a8804-ad76-471d-840e-10560a9dfa63 publish payload on /eagledaddy/announce: packet size 0.33KB
+DEBUG:root:callback triggered for ffffffff-ffff-ffff-ffff-ffffffffffff
+WARNING:root:Hub recieved message from cloud with no Command defined.
+INFO:root:Device ID: 9b4a8804-ad76-471d-840e-10560a9dfa63
+INFO:root:Connect ID: rebuttoned-athyridae-atwain-629156
+INFO:root:Device Name: poleward-nongratification
+DEBUG:root:Initializing client with: {'client_id': '9b4a8804-ad76-471d-840e-10560a9dfa63', 'protocol': 4, 'transport': 'tcp', 'clean_session': False}
+DEBUG:root:Connecting to broker ed.qubixat.com:1883
+INFO:root:Root subscription for 9b4a8804-ad76-471d-840e-10560a9dfa63 not found, creating one from supplied channel: /eagledaddy/9b4a8804-ad76-471d-840e-10560a9dfa63/#
+INFO:root:Client 9b4a8804-ad76-471d-840e-10560a9dfa63 created callback for /eagledaddy/9b4a8804-ad76-471d-840e-10560a9dfa63/cloud
+DEBUG:root:attaching command to packet: announce
+DEBUG:root:attaching payload to packet: {'connect_passphrase': 'rebuttoned-athyridae-atwain-629156', 'hub_id': '9b4a8804-ad76-471d-840e-10560a9dfa63', 'hub_name': 'poleward-nongratification'}
+DEBUG:root:attaching sender to packet: 9b4a8804-ad76-471d-840e-10560a9dfa63
+DEBUG:root:9b4a8804-ad76-471d-840e-10560a9dfa63 publish payload on /eagledaddy/announce: packet size 0.33KB
+DEBUG:root:callback triggered for ffffffff-ffff-ffff-ffff-ffffffffffff
+WARNING:root:Hub recieved message from cloud with no Command defined.
+INFO:root:Device ID: 9b4a8804-ad76-471d-840e-10560a9dfa63
+INFO:root:Connect ID: rebuttoned-athyridae-atwain-629156
+INFO:root:Device Name: poleward-nongratification
+DEBUG:root:Initializing client with: {'client_id': '9b4a8804-ad76-471d-840e-10560a9dfa63', 'protocol': 4, 'transport': 'tcp', 'clean_session': False}
+DEBUG:root:Connecting to broker ed.qubixat.com:1883
+INFO:root:Root subscription for 9b4a8804-ad76-471d-840e-10560a9dfa63 not found, creating one from supplied channel: /eagledaddy/9b4a8804-ad76-471d-840e-10560a9dfa63/#
+INFO:root:Client 9b4a8804-ad76-471d-840e-10560a9dfa63 created callback for /eagledaddy/9b4a8804-ad76-471d-840e-10560a9dfa63/cloud
+DEBUG:root:attaching command to packet: announce
+DEBUG:root:attaching payload to packet: {'connect_passphrase': 'rebuttoned-athyridae-atwain-629156', 'hub_id': '9b4a8804-ad76-471d-840e-10560a9dfa63', 'hub_name': 'poleward-nongratification'}
+DEBUG:root:attaching sender to packet: 9b4a8804-ad76-471d-840e-10560a9dfa63
+DEBUG:root:9b4a8804-ad76-471d-840e-10560a9dfa63 publish payload on /eagledaddy/announce: packet size 0.33KB
+DEBUG:root:callback triggered for ffffffff-ffff-ffff-ffff-ffffffffffff
+WARNING:root:Hub recieved message from cloud with no Command defined.
+DEBUG:root:callback triggered for ffffffff-ffff-ffff-ffff-ffffffffffff
+DEBUG:root:attaching command to packet: discovery
+DEBUG:root:attaching payload to packet: [{'id': 1, 'address64': '0013a20041bd2a7a', 'node_id': 'test0', 'operating_mode': '01', 'network_id': '7fff', 'parent_device': '0013a20041bd3346'}, {'id': 2, 'address64': '0013a20041b625b5', 'node_id': 'test1', 'operating_mode': '01', 'network_id': '7fff', 'parent_device': '0013a20041bd3346'}, {'id': 4, 'address64': '0013a20041b625c8', 'node_id': 'deer_feeder_01', 'operating_mode': '01', 'network_id': '7fff', 'parent_device': '0013a20041bd3346'}]
+DEBUG:root:attaching sender to packet: 9b4a8804-ad76-471d-840e-10560a9dfa63
+DEBUG:root:9b4a8804-ad76-471d-840e-10560a9dfa63 publish payload on /eagledaddy/9b4a8804-ad76-471d-840e-10560a9dfa63: packet size 0.48KB
+DEBUG:root:ignoring unhandeld subscription: /eagledaddy/9b4a8804-ad76-471d-840e-10560a9dfa63, size of data 0.48KB
+DEBUG:root:callback triggered for ffffffff-ffff-ffff-ffff-ffffffffffff
+DEBUG:root:attaching command to packet: discovery
+DEBUG:root:attaching payload to packet: [{'id': 1, 'address64': '0013a20041bd2a7a', 'node_id': 'test0', 'operating_mode': '01', 'network_id': '7fff', 'parent_device': '0013a20041bd3346'}, {'id': 2, 'address64': '0013a20041b625b5', 'node_id': 'test1', 'operating_mode': '01', 'network_id': '7fff', 'parent_device': '0013a20041bd3346'}, {'id': 4, 'address64': '0013a20041b625c8', 'node_id': 'deer_feeder_01', 'operating_mode': '01', 'network_id': '7fff', 'parent_device': '0013a20041bd3346'}]
+DEBUG:root:attaching sender to packet: 9b4a8804-ad76-471d-840e-10560a9dfa63
+DEBUG:root:9b4a8804-ad76-471d-840e-10560a9dfa63 publish payload on /eagledaddy/9b4a8804-ad76-471d-840e-10560a9dfa63: packet size 0.48KB
+DEBUG:root:ignoring unhandeld subscription: /eagledaddy/9b4a8804-ad76-471d-840e-10560a9dfa63, size of data 0.48KB
+DEBUG:root:callback triggered for ffffffff-ffff-ffff-ffff-ffffffffffff
+DEBUG:root:attaching command to packet: discovery
+DEBUG:root:attaching payload to packet: [{'id': 1, 'address64': '0013a20041bd2a7a', 'node_id': 'test0', 'operating_mode': '01', 'network_id': '7fff', 'parent_device': '0013a20041bd3346'}, {'id': 2, 'address64': '0013a20041b625b5', 'node_id': 'test1', 'operating_mode': '01', 'network_id': '7fff', 'parent_device': '0013a20041bd3346'}, {'id': 4, 'address64': '0013a20041b625c8', 'node_id': 'deer_feeder_01', 'operating_mode': '01', 'network_id': '7fff', 'parent_device': '0013a20041bd3346'}]
+DEBUG:root:attaching sender to packet: 9b4a8804-ad76-471d-840e-10560a9dfa63
+DEBUG:root:9b4a8804-ad76-471d-840e-10560a9dfa63 publish payload on /eagledaddy/9b4a8804-ad76-471d-840e-10560a9dfa63: packet size 0.48KB
+DEBUG:root:ignoring unhandeld subscription: /eagledaddy/9b4a8804-ad76-471d-840e-10560a9dfa63, size of data 0.48KB

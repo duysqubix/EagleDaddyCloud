@@ -9,3 +9,4 @@ pydot==1.4.1
 pyyaml==5.4.1
 django-widget-tweaks==1.4.8
 redis==3.5.3
+edcomms

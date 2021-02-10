@@ -1,3 +1,4 @@
+from edcomms import EDChannel
 from django.db import models
 from django.utils import timezone
 
@@ -22,14 +23,14 @@ class ClientHubDevice(models.Model):
     last_message = models.CharField(max_length=2048, null=True)
 
     @property
-    def dedicated_channel(self):
+    def dedicated_channel(self) -> EDChannel:
         root = CONFIG.mqtt.root_channel
-        return f"{root}/{self.hub_id}/cloud"
+        return EDChannel(f"{self.hub_id}/cloud/", root=root)
 
     @property
-    def listening_channel(self):
+    def listening_channel(self) -> EDChannel:
         root = CONFIG.mqtt.root_channel
-        return f"{root}/{self.hub_id}"
+        return EDChannel(f"{self.hub_id}/", root=root)
 
 
 class NodeModule(models.Model):

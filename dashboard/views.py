@@ -9,12 +9,13 @@ from django.views.generic import TemplateView, View
 
 from broker.models import ClientHubDevice, NodeModule
 
-from comms import VALID_CMD
+from edcomms import EDCommand
 from EagleDaddyCloud.settings import CONFIG
 from broker.utils import send_proxy_data
 
 _REDIS_POOL = redis.ConnectionPool(host=CONFIG.proxy.host,
-                                   port=int(CONFIG.proxy.port))
+                                   port=int(CONFIG.proxy.port),
+                                   health_check_interval=15)
 
 
 class TestView(View):
@@ -28,8 +29,7 @@ class HubMainView(TemplateView):
     def get_user_linked_hubs(self, user):
         user_account = getattr(user, 'account', None)
         hubs = list(
-            ClientHubDevice.objects.filter(
-                account=user_account).all()) if user_account else []
+            ClientHubDevice.objects.filter(account=user_account).all()) if user_account else []
 
         return hubs
 
@@ -69,9 +69,8 @@ class DiscoverNewNodes(RedirectView):
     def do_discovery(self, hub_id):
         hub = ClientHubDevice.objects.filter(hub_id=hub_id).first()
 
-        # send
         # with redis.Redis(connection_pool=_REDIS_POOL) as proxy:
-        cmd = {str(hub.hub_id): VALID_CMD.DISCOVERY.value}
+        cmd = {str(hub.hub_id): EDCommand.discovery.value}
         #     proxy.publish(CONFIG.proxy.channel, json.dumps(cmd))
         success = send_proxy_data(_REDIS_POOL, cmd)
         if not success:
