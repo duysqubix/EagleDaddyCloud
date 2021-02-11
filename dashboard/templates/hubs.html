@@ -1,7 +1,122 @@
 {% extends 'dashboard.html' %}
 
-{% block dashboard_content %}
+{% block script %}
+<script>
+    String.prototype.format = function () {
+        a = this;
+        for (k in arguments) {
+            a = a.replace("{" + k + "}", arguments[k])
+        }
+        return a
+    }
 
+
+    async function ajax_rqst_nodes() {
+        return $.ajax({
+            url: "{% url 'check_for_nodes' %}",
+            success: function (response) {
+                var nodes = response.nodes;
+                if (nodes.length == 0) {
+                    console.log("No nodes found");
+                    return;
+                }
+
+                $("#hub_node_canvas").html(function () {
+                    var node_str = "";
+                    for (i = 0; i < nodes.length; i++) {
+                        id = nodes[i].node_id;
+                        addr = nodes[i].address64;
+                        url = nodes[i].url;
+                        node_str += ` 
+                        <div class='card-body'>
+                            <h5 class='card-title'>{0}</h5>
+                            <h6 class='card-subtitle mb-2 text-muted'>{1}</h6>
+                            <a href="{3}" type="button" class="card-link btn btn-success" id="node_{2}">Unlink</a>
+
+                        </div>`.format(id, addr, addr, url);
+
+                    }
+
+                    // remove spinner to discovery button
+                    $("#discover_btn_spinner").removeAttr("class").removeAttr("role")
+                        .removeAttr("role").removeAttr("aria-hidden")
+                    console.log(node_str);
+                    return node_str;
+                });
+
+                return true;
+            },
+            error: function (response) {
+                console.log(response.responseJSON.errors);
+                return false;
+
+            }
+        });
+    }
+
+    var click_handler = function (e) {
+        /**
+        An AJAX call when discovering new or existing nodes
+        from the hub.
+
+        Has a timeout of 30 seconds, but will continue to run in a loop and query
+        the server every 2 seconds to see if results come back.
+        **/
+
+        // add spinner to discovery button
+        $("#discover_btn_spinner").addClass("spinner-border").addClass("spinner-border-sm").attr("role", "status")
+            .attr("aria-hidden", "true")
+        async function discover_rqst() {
+            $.ajax({
+                data: {
+                    "hub_id": $("#hub_id").val()
+                },
+                url: "{% url 'discover_nodes' %}",
+                success: function (response) {
+                    console.log(response);
+                },
+
+                error: function (response) {
+                    console.log(response.responseJSON.errors);
+                }
+            })
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+
+        async function poll_nodes() {
+            var query_time = 2; // s
+            var timeout = 60; // s
+
+            var total_ticks = timeout / query_time;
+
+            var tick = 0;
+            while (tick <= total_ticks) {
+                console.log("Polling for nodes");
+                var result = await ajax_rqst_nodes();
+                console.log(result);
+                if (result.nodes.length > 0) {
+                    break;
+                }
+                await sleep(query_time * 1000);
+                tick++;
+            }
+        }
+        discover_rqst();
+        poll_nodes();
+    }
+
+    $(document).ready(function () {
+        $("#discover_btn").one('click', click_handler);
+
+        var node_results = ajax_rqst_nodes();
+    })
+</script>
+
+{% endblock script %}
 
 {% block style %}
 <style>
@@ -13,6 +128,7 @@
 {% endblock style %}
 
 
+{% block dashboard_content %}
 <hr>
 {% if not hubs %}
 No Hubs Found, connect to one.
@@ -28,10 +144,13 @@ No Hubs Found, connect to one.
 {% else %}
 {% for hub in hubs %}
 <h4 class="mt-2">{{hub.hub_name.title}}</h4>
-
+<input type="hidden" name="hub_id" value="{{hub.hub_id}}" id="hub_id">
 <div class="row">
     <div class="col-2 bg-error">
-        <a class="btn btn-danger mt-2 shadow" href="{% url 'hub_discover' hub.hub_id%}">Discover</a>
+        <button type="button" class="btn btn-danger mt-2 shadow" id="discover_btn">
+            <span id="discover_btn_spinner"></span>
+
+            Discover</button>
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary mt-2 shadow " data-toggle="modal" data-target="#hub_meta_data">
             Info
@@ -65,9 +184,12 @@ No Hubs Found, connect to one.
 
 <div class="row mt-5">
     <div class="col">
-        {% if hub.node.all %}
+        <div class="card mt-3" style="width: 18rem;" id="hub_node_canvas">
+
+        </div>
+        {% comment %} {% if hub.node.all %}
         {% for node in hub.node.all %}
-        <div class="card mt-3" style="width: 18rem;">
+        <div class="card mt-3" style="width: 18rem;" id="hub_node_canvas">
             <div class="card-body">
                 <h5 class="card-title">{{node.node_id.title}}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">{{node.address}}</h6>
@@ -78,14 +200,11 @@ No Hubs Found, connect to one.
 
         {% else %}
         <p>No Nodes Found.</p>
-        {% endif %}
+        {% endif %} {% endcomment %}
 
     </div>
 </div>
 <hr>
 {% endfor %}
 {% endif %}
-
-
-
 {% endblock dashboard_content %}

@@ -2,9 +2,9 @@ import redis
 import logging
 from django.views.generic.base import RedirectView
 from dashboard.forms import NewHubConnectForm
-from django.http.response import HttpResponseRedirect
+from django.http.response import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, View
 
 from broker.models import ClientHubDevice, NodeModule
@@ -18,6 +18,46 @@ _REDIS_POOL = redis.ConnectionPool(host=CONFIG.proxy.host,
                                    health_check_interval=15)
 
 
+def check_for_nodes(request):
+    """
+    check for nodes and return
+    """
+    nodes = NodeModule.objects.all()
+
+    node_j = {'nodes': list()}
+    for node in nodes:
+        url_path = reverse('node_remove', args=[str(node.address)])
+        logging.error(url_path)
+        node_j['nodes'].append({
+            'address64': node.address,
+            'node_id': node.node_id,
+            'url': str(url_path)
+        })
+    return JsonResponse(node_j)
+
+
+def discover_nodes(request):
+    """
+    Do the actual discovering of nodes
+    """
+    hub_id = request.GET.get('hub_id')
+    if not hub_id:
+        return JsonResponse({'response': "hub_id not found in request"})
+
+    hub = ClientHubDevice.objects.filter(hub_id=hub_id).first()
+
+    # with redis.Redis(connection_pool=_REDIS_POOL) as proxy:
+    cmd = {str(hub.hub_id): EDCommand.discovery.value}
+    #     proxy.publish(CONFIG.proxy.channel, json.dumps(cmd))
+    success = send_proxy_data(_REDIS_POOL, cmd)
+    if not success:
+        err_msg = "Unable to send data to proxy server."
+        logging.error(err_msg)
+        return JsonResponse({'response': err_msg})
+
+    return JsonResponse({'response': str(success)})
+
+
 class TestView(View):
     def get(self, request):
         return render(request, "hubs.html", {})
@@ -29,7 +69,8 @@ class HubMainView(TemplateView):
     def get_user_linked_hubs(self, user):
         user_account = getattr(user, 'account', None)
         hubs = list(
-            ClientHubDevice.objects.filter(account=user_account).all()) if user_account else []
+            ClientHubDevice.objects.filter(
+                account=user_account).all()) if user_account else []
 
         return hubs
 

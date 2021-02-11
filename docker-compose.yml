@@ -10,17 +10,6 @@ services:
     env_file: 
       - .env
 
-  # mosquitto:
-  #   container_name: mosquitto
-  #   image: arm64v8/eclipse-mosquitto:latest
-
-  #   volumes:
-  #     - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
-  #     - ./mosquitto.log:/mosquitto/log/mosquitto.log
-  #   ports:
-  #     - 1883:1883
-  #     - 9001:9001
-
   redis:
     container_name: redis
     image: arm64v8/redis:latest
@@ -32,11 +21,10 @@ services:
     container_name: edcloud 
     build: .
     volumes: 
-      - .:/eagledaddycloud  # link src for immediate code updates
+      - .:/eagledaddycloud  
     
     depends_on: 
       - postgres
-      # - mosquitto
       - redis
 
     ports:

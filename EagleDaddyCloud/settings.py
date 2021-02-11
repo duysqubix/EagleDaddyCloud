@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.admin', 'django.contrib.auth',
     'django.contrib.contenttypes', 'django.contrib.sessions',
     'django.contrib.messages', 'django.contrib.staticfiles',
-    'django_extensions', "widget_tweaks", 'ClientAccount', 'dashboard',
-    'accounts', 'broker'
+    'django_extensions', "widget_tweaks", "crispy_forms", 'ClientAccount',
+    'dashboard', 'accounts', 'broker'
 ]
 
 MIDDLEWARE = [

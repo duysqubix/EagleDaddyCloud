@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% load widget_tweaks %}
 
 {% block title %}
@@ -7,9 +8,15 @@ Test
 {% endblock title %}
 {% block body %}
 
+<div class="container mt-5 w-50">
+    {% comment %} <img src="{% static '/images/logo_full.png' %}" class="img-fluid"></img>
+    <hr>
+    <form id="signupForm" method="POST">
+        {% csrf_token %}
+        {{form|crispy}}
+        <input type="submit" name="signupSubmit" class="btn btn-success btn-lg" />
 
-<div class="container">
-
+    </form> {% endcomment %}
     <div class="row  ">
         <br><br>
         <div class=" col"></div>
@@ -28,12 +35,41 @@ Test
         </div>
         <div class="col"></div>
     </div>
-</div>
-{% endblock body %}
 
-{% comment %} <h2>Sign up</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Sign Up</button>
-</form> {% endcomment %}
+</div>
+
+<script>
+    $(document).ready(function () {
+        console.log("Hello");
+        // catch the form's submit event
+        $('#id_username').keyup(function () {
+            // create an AJAX call
+            $.ajax({
+                data: $(this).serialize(), // get the form data
+                url: "{% url 'validate_username' %}",
+                // on success
+                success: function (response) {
+                    if (response.is_taken == true) {
+                        $('#id_username').removeClass('is-valid').addClass('is-invalid');
+                        $('#id_username').after(
+                            '<div class="invalid-feedback d-block" id="usernameError">This username is not available!</div>'
+                        )
+                    } else {
+                        $('#id_username').removeClass('is-invalid').addClass('is-valid');
+                        $('#usernameError').remove();
+
+                    }
+
+                },
+                // on error
+                error: function (response) {
+                    // alert the error if any error occured
+                    console.log(response.responseJSON.errors)
+                }
+            });
+
+            return false;
+        });
+    })
+</script>
+{% endblock body %}
