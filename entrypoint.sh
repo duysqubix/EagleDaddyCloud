@@ -18,6 +18,6 @@ echo "######################## TESTING #####################################"
 python manage.py test -v 2 --force-color
 echo "######################################################################"
 
-# python bin/mqtt-manager.py&
+python bin/mqtt-manager.py&
 python manage.py runserver 0.0.0.0:8080
 tail -f /dev/null

@@ -12,7 +12,7 @@ services:
 
   redis:
     container_name: redis
-    image: arm64v8/redis:latest
+    image: arm32v7/redis:latest
 
     ports:
       - 6379:6379
