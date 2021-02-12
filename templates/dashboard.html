@@ -1,61 +1,53 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block title %}
 Eagle Daddy Dashboard
 {% endblock title %}
 
-
 {% block body %}
-
 {% if not user.is_authenticated %}
 <nav class="navbar navbar-dark sticky-top bg-danger flex-md-nowrap p-0">
-    <div>
-        <img src="{% static 'images/logo.png' %}" class="navbar-brand col-2 mx-auto"
-            style="height: 3em; background-color: white">
-    </div>
-    <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
-            <a class="nav-link" href="{% url 'login' %}"><span class="material-icons">login</span>Sign In</a>
-        </li>
-    </ul>
+  <div>
+    <img src="{% static 'images/logo.png' %}" class="navbar-brand col-2 mx-auto"
+      style="height: 3em; background-color: white" />
+  </div>
+  <ul class="navbar-nav px-3">
+    <li class="nav-item text-nowrap">
+      <a class="nav-link" href="{% url 'login' %}"><span class="material-icons">login</span>Sign In</a>
+    </li>
+  </ul>
 </nav>
 {% else %}
 <nav class="navbar navbar-dark sticky-top bg-danger flex-md-nowrap p-0">
-    <div>
-        <img src="{% static 'images/logo.png' %}" class="navbar-brand col-2 mx-auto"
-            style="height: 3em; background-color: white">
-    </div>
-    <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
-            <a class="nav-link" href="{% url 'logout' %}">Sign out<span class="material-icons">logout</span></a>
-        </li>
-    </ul>
+  <div>
+    <img src="{% static 'images/logo.png' %}" class="navbar-brand col-2 mx-auto"
+      style="height: 3em; background-color: white" />
+  </div>
+  <ul class="navbar-nav px-3">
+    <li class="nav-item text-nowrap">
+      <a class="nav-link" href="{% url 'logout' %}">Sign out<span class="material-icons">logout</span></a>
+    </li>
+  </ul>
 </nav>
 
 <div class="container-fluid">
-    <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            <div class="sidebar-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            Account
-                        </a>
-                    </li>
+  <div class="row">
+    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" href="#"> Account </a>
+          </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">
-                            Hubs
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        <div class="col">
-            {% block dashboard_content %}{% endblock dashboard_content %}
-        </div>
+          <li class="nav-item">
+            <a class="nav-link active" href="#"> Hubs </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="col">
+      {% block dashboard_content %}{% endblock dashboard_content %}
     </div>
+  </div>
 </div>
-{% endif %}
-{% endblock body %}
+{% endif %} {% endblock body %}

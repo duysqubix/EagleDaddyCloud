@@ -32,7 +32,7 @@
                 <div class="collapsible-header blue-grey lighten-4"><i class="material-icons">device_hub</i>
                     {{hub.hub_name}}
                     &nbsp;
-                    <form method="POST" action="{% url 'discover_nodes' hub.hub_name %}">
+                    <form method="POST" action="{% url 'ajax_discover_nodes' hub.hub_name %}">
                         {% csrf_token %}
                         <button type='submit' class='btn-small waves-effect waves-light red tooltipped'
                             data-position='top' data-tooltip="Discover new nodes.">Discovery </button>

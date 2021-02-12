@@ -1,0 +1,24 @@
+{
+  "files.associations": {
+    "**/**.html": "django-html",
+    "**/templates/**/*.html": "django-html",
+    "**/templates/**/*": "django-txt",
+    "**/requirements{/**,*}.{txt,in}": "pip-requirements"
+  },
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": true,
+  "python.formatting.provider": "yapf",
+
+  "beautify.language": {
+    "html": ["htm", "html", "django-html"],
+    "js": {
+      "type": ["javascript", "json"],
+      "filename": [".jshintrc", ".jsbeautifyrc"],
+      "ext": ["js", "json"]
+      // ^^ to set extensions to be beautified using the javascript beautifier
+    },
+    "css": ["css", "scss"],
+  },
+  "editor.defaultFormatter": "HookyQR.beautify"
+}

@@ -18,7 +18,41 @@ _REDIS_POOL = redis.ConnectionPool(host=CONFIG.proxy.host,
                                    health_check_interval=15)
 
 
-def check_for_nodes(request):
+#TODO: 
+# Brain not working on this Friday. Going to do something i want to do.
+# 
+# I can communicate between cloud/hub via mqtt, but displaying result in webapp proves to be
+# cumbersome. For discovering node, an ajax request constantly polls the database
+# to see if the manager has found found clients and wrote them to db.
+#
+# For direct communication between a hub to do a specific command
+# a protocol must be designed where response from hub is stored in a
+# temporary location in database, and the webapp polls db to see results
+#
+#
+# This could led to a pattern that can be abstracted, for each 
+# custom defined interaction between hub/cloud is seems two ajax
+# calls are required 1) to kick off the actual command to hub 2) the code
+# necessary to poll the db and watch for results
+#
+#
+# Design idea: 
+# instead of creating a new model for each type of communication between hub/cloud
+# create a single model (table) that holds enough information where cached replies can
+# be stored so webapp can consume
+#
+# IMPORTANT TO REMEMBER LIFECYCLE and data flow
+# Web App -> Redis -> MQTT Client -> DATABASE -> WebApp
+def ajax_check_node_connection(request):
+    """
+    will supply hub_id in request and must be used to initiate
+    communication with hub and perform test connection command
+    """
+    hub_id = request.GET.get('hub_id')
+    if not hub_id:
+        return JsonResponse({'response': "hub_id not found in request"})
+
+def ajax_check_for_nodes(request):
     """
     check for nodes and return
     """
@@ -31,12 +65,12 @@ def check_for_nodes(request):
         node_j['nodes'].append({
             'address64': node.address,
             'node_id': node.node_id,
-            'url': str(url_path)
+            'remove_url': str(url_path),
         })
     return JsonResponse(node_j)
 
 
-def discover_nodes(request):
+def ajax_discover_nodes(request):
     """
     Do the actual discovering of nodes
     """
@@ -102,26 +136,6 @@ class RemoveNode(RedirectView):
             return
         node.delete()
         return super().get(request, *args, **kwargs)
-
-
-class DiscoverNewNodes(RedirectView):
-    pattern_name = "hub_main_view"
-
-    def do_discovery(self, hub_id):
-        hub = ClientHubDevice.objects.filter(hub_id=hub_id).first()
-
-        # with redis.Redis(connection_pool=_REDIS_POOL) as proxy:
-        cmd = {str(hub.hub_id): EDCommand.discovery.value}
-        #     proxy.publish(CONFIG.proxy.channel, json.dumps(cmd))
-        success = send_proxy_data(_REDIS_POOL, cmd)
-        if not success:
-            logging.error("Unable to send data to proxy server.")
-            return
-
-    def get(self, request, hub_id, *args, **kwargs):
-        self.do_discovery(hub_id)
-        return super().get(request, *args, **kwargs)
-
 
 class HubInfoView(TemplateView):
     template_name = "dashboard_base.html"

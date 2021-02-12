@@ -1,61 +1,84 @@
-{% extends 'dashboard.html' %}
-
-{% block script %}
+{% extends 'dashboard.html' %} {% block script %}
 <script>
-    String.prototype.format = function () {
-        a = this;
-        for (k in arguments) {
-            a = a.replace("{" + k + "}", arguments[k])
+  String.prototype.format = function () {
+    var args = arguments;
+    this.unkeyed_index = 0;
+    return this.replace(
+      /\{(\w*)\}/g,
+      function (match, key) {
+        if (key === "") {
+          key = this.unkeyed_index;
+          this.unkeyed_index++;
         }
-        return a
-    }
-
-
-    async function ajax_rqst_nodes() {
-        return $.ajax({
-            url: "{% url 'check_for_nodes' %}",
-            success: function (response) {
-                var nodes = response.nodes;
-                if (nodes.length == 0) {
-                    console.log("No nodes found");
-                    return;
-                }
-
-                $("#hub_node_canvas").html(function () {
-                    var node_str = "";
-                    for (i = 0; i < nodes.length; i++) {
-                        id = nodes[i].node_id;
-                        addr = nodes[i].address64;
-                        url = nodes[i].url;
-                        node_str += ` 
-                        <div class='card-body'>
-                            <h5 class='card-title'>{0}</h5>
-                            <h6 class='card-subtitle mb-2 text-muted'>{1}</h6>
-                            <a href="{3}" type="button" class="card-link btn btn-success" id="node_{2}">Unlink</a>
-
-                        </div>`.format(id, addr, addr, url);
-
-                    }
-
-                    // remove spinner to discovery button
-                    $("#discover_btn_spinner").removeAttr("class").removeAttr("role")
-                        .removeAttr("role").removeAttr("aria-hidden")
-                    console.log(node_str);
-                    return node_str;
-                });
-
-                return true;
-            },
-            error: function (response) {
-                console.log(response.responseJSON.errors);
-                return false;
-
+        if (key == +key) {
+          return args[key] !== "undefined" ? args[key] : match;
+        } else {
+          for (var i = 0; i < args.length; i++) {
+            if (
+              typeof args[i] === "object" &&
+              typeof args[i][key] !== "undefined"
+            ) {
+              return args[i][key];
             }
-        });
-    }
+          }
+          return match;
+        }
+      }.bind(this)
+    );
+  };
 
-    var click_handler = function (e) {
-        /**
+  async function ajax_rqst_nodes() {
+    return $.ajax({
+      url: "{% url 'ajax_check_for_nodes' %}",
+      success: function (response) {
+        var nodes = response.nodes;
+        if (nodes.length == 0) {
+          console.log("No nodes found");
+          return;
+        }
+
+        $("#hub_node_canvas").html(function () {
+          var node_str = "";
+          for (i = 0; i < nodes.length; i++) {
+            node_str += ` 
+            <div class='card-body'>
+                <h5 class='card-title'>{node_id}</h5>
+                <h6 class='card-subtitle mb-2 text-muted'>{address64}</h6>
+                <a href="{remove_url}" type="button" class="card-link btn btn-success">Unlink</a>
+            </div>`.format(nodes[i]);
+          }
+
+          // remove spinner to discovery button
+          $("#discover_btn_spinner")
+            .removeAttr("class")
+            .removeAttr("role")
+            .removeAttr("role")
+            .removeAttr("aria-hidden");
+          console.log(node_str);
+          return node_str;
+        });
+
+        return true;
+      },
+      error: function (response) {
+        console.log(response.responseJSON.errors);
+        return false;
+      },
+    });
+  }
+
+
+  var test_node_connection_handler = function (e) {
+    return $.ajax({
+      data: {
+        'hub_id': $("#hub_id").val()
+      },
+      url: "{% url 'ajax_check_node_connection' %}"
+    });
+  };
+
+  var discover_handler = function (e) {
+    /**
         An AJAX call when discovering new or existing nodes
         from the hub.
 
@@ -63,148 +86,168 @@
         the server every 2 seconds to see if results come back.
         **/
 
-        // add spinner to discovery button
-        $("#discover_btn_spinner").addClass("spinner-border").addClass("spinner-border-sm").attr("role", "status")
-            .attr("aria-hidden", "true")
-        async function discover_rqst() {
-            $.ajax({
-                data: {
-                    "hub_id": $("#hub_id").val()
-                },
-                url: "{% url 'discover_nodes' %}",
-                success: function (response) {
-                    console.log(response);
-                },
+    // add spinner to discovery button
+    $("#discover_btn_spinner")
+      .addClass("spinner-border")
+      .addClass("spinner-border-sm")
+      .attr("role", "status")
+      .attr("aria-hidden", "true");
+    async function discover_rqst() {
+      $.ajax({
+        data: {
+          hub_id: $("#hub_id").val(),
+        },
+        url: "{% url 'ajax_discover_nodes' %}",
+        success: function (response) {
+          console.log(response);
+        },
 
-                error: function (response) {
-                    console.log(response.responseJSON.errors);
-                }
-            })
-        }
-
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
-
-
-        async function poll_nodes() {
-            var query_time = 2; // s
-            var timeout = 60; // s
-
-            var total_ticks = timeout / query_time;
-
-            var tick = 0;
-            while (tick <= total_ticks) {
-                console.log("Polling for nodes");
-                var result = await ajax_rqst_nodes();
-                console.log(result);
-                if (result.nodes.length > 0) {
-                    break;
-                }
-                await sleep(query_time * 1000);
-                tick++;
-            }
-        }
-        discover_rqst();
-        poll_nodes();
+        error: function (response) {
+          console.log(response.responseJSON.errors);
+        },
+      });
     }
 
-    $(document).ready(function () {
-        $("#discover_btn").one('click', click_handler);
+    function sleep(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
 
-        var node_results = ajax_rqst_nodes();
-    })
+    async function poll_nodes() {
+      var query_time = 2; // s
+      var timeout = 60; // s
+
+      var total_ticks = timeout / query_time;
+
+      var tick = 0;
+      while (tick <= total_ticks) {
+        console.log("Polling for nodes");
+        var result = await ajax_rqst_nodes();
+        console.log(result);
+        if (result.nodes.length > 0) {
+          break;
+        }
+        await sleep(query_time * 1000);
+        tick++;
+      }
+    }
+    discover_rqst();
+    poll_nodes();
+  };
+
+  $(document).ready(function () {
+    $("#discover_btn").one("click", discover_handler);
+    $("$test_conn_btn").one("click", test_node_connection_handler)
+
+    var node_results = ajax_rqst_nodes();
+  });
+
 </script>
 
-{% endblock script %}
-
-{% block style %}
+{% endblock script %} {% block style %}
 <style>
-    .btn-discover {
-        background-color: #8064A2 !important;
-    }
+  .btn-discover {
+    background-color: #8064a2 !important;
+  }
+
 </style>
 
-{% endblock style %}
-
-
-{% block dashboard_content %}
-<hr>
-{% if not hubs %}
-No Hubs Found, connect to one.
+{% endblock style %} {% block dashboard_content %}
+<hr />
+{% if not hubs %} No Hubs Found, connect to one.
 <form method="POST" action="{% url 'connect_new_hub' %}">
-    <div class="row">
-        {% csrf_token %}
-        <div class="col-2">
-            {{new_hub_form}}
-            <input type="submit" class="btn mt-2 btn-primary" data-dismiss="modal" value="Connect">
-        </div>
+  <div class="row">
+    {% csrf_token %}
+    <div class="col-2">
+      {{new_hub_form}}
+      <input type="submit" class="btn mt-2 btn-primary" data-dismiss="modal" value="Connect" />
     </div>
+  </div>
 </form>
-{% else %}
-{% for hub in hubs %}
+{% else %} {% for hub in hubs %}
 <h4 class="mt-2">{{hub.hub_name.title}}</h4>
-<input type="hidden" name="hub_id" value="{{hub.hub_id}}" id="hub_id">
+<input type="hidden" name="hub_id" value="{{hub.hub_id}}" id="hub_id" />
 <div class="row">
-    <div class="col-2 bg-error">
-        <button type="button" class="btn btn-danger mt-2 shadow" id="discover_btn">
-            <span id="discover_btn_spinner"></span>
+  <div class="col-2 bg-error">
+    <button type="button" class="btn btn-danger mt-2 shadow" id="discover_btn">
+      <span id="discover_btn_spinner"></span>
 
-            Discover</button>
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary mt-2 shadow " data-toggle="modal" data-target="#hub_meta_data">
-            Info
-        </button>
-        <!-- Modal -->
-        <div class="modal fade" id="hub_meta_data" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{hub.hub_name.title}}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Hub Id: <br><b>{{hub.hub_id}}</b></p><br>
-                        <p>Connect Phrase: <br><b>{{hub.connect_passphrase}}</b></p><br>
-                        <p>Assigned to: <br><b>{{hub.account.user.username.title}}</b></p><br>
+      Discover
+    </button>
+    <button type="button" class="btn btn-secondary mt-2 shadow" data-toggle="modal" data-target="#hub_meta_data">
+      Info
+    </button>
 
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
+    <button id="test_conn_btn" type="button" class="btn btn-secondary btn-sm mt-2 shadow" data-toggle="modal"
+      data-target="#node_conn_test">
+      Test
+    </button>
+    <!-- Test Node Modal -->
+    <div class="modal fade" id="node_conn_test" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Node Connectivity Check
+            </h5>
+          </div>
+          <div class="modal-body" id="modal_test_conn_node_body">
+            <!-- This is the area that will populate by ajax when testing connection with nodes-->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              Close
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
-
+    <!-- Hub Info Modal -->
+    <div class="modal fade" id="hub_meta_data" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              {{hub.hub_name.title}}
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Hub Id: <br /><b>{{hub.hub_id}}</b></p>
+            <br />
+            <p>Connect Phrase: <br /><b>{{hub.connect_passphrase}}</b></p>
+            <br />
+            <p>Assigned to: <br /><b>{{hub.account.user.username.title}}</b></p>
+            <br />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="row mt-5">
-    <div class="col">
-        <div class="card mt-3" style="width: 18rem;" id="hub_node_canvas">
-
-        </div>
-        {% comment %} {% if hub.node.all %}
-        {% for node in hub.node.all %}
-        <div class="card mt-3" style="width: 18rem;" id="hub_node_canvas">
-            <div class="card-body">
-                <h5 class="card-title">{{node.node_id.title}}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">{{node.address}}</h6>
-                <a href="{% url 'node_remove' node.address %}" class="card-link">Remove</a>
-            </div>
-        </div>
-        {% endfor %}
-
-        {% else %}
-        <p>No Nodes Found.</p>
-        {% endif %} {% endcomment %}
-
+  <div class="col">
+    <div class="card mt-3" style="width: 18rem" id="hub_node_canvas"></div>
+    {% comment %} {% if hub.node.all %} {% for node in hub.node.all %}
+    <div class="card mt-3" style="width: 18rem" id="hub_node_canvas">
+      <div class="card-body">
+        <h5 class="card-title">{{node.node_id.title}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{node.address}}</h6>
+        <a href="{% url 'node_remove' node.address %}" class="card-link">Remove</a>
+      </div>
     </div>
+    {% endfor %} {% else %}
+    <p>No Nodes Found.</p>
+    {% endif %} {% endcomment %}
+  </div>
 </div>
-<hr>
-{% endfor %}
-{% endif %}
-{% endblock dashboard_content %}
+<hr />
+{% endfor %} {% endif %} {% endblock dashboard_content %}
