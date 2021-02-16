@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, View
 
-from broker.models import ClientHubDevice, NodeModule
+from broker.models import ClientHubDevice, CommandDiagnosticsResponse, NodeModule
 
 from edcomms import EDCommand
 from EagleDaddyCloud.settings import CONFIG
@@ -43,32 +43,44 @@ _REDIS_POOL = redis.ConnectionPool(host=CONFIG.proxy.host,
 #
 # IMPORTANT TO REMEMBER LIFECYCLE and data flow
 # Web App -> Redis -> MQTT Client -> DATABASE -> WebApp
-def ajax_check_node_connection(request):
+
+
+def ajax_diagnostics_rcv(request):
+    hub_id = request.GET.get('hub_id')
+    if not hub_id:
+        return JsonResponse({'response': None})
+
+    hub = ClientHubDevice.objects.filter(hub_id=hub_id).first()
+
+    if not hub.diagnostics_ready():
+        return JsonResponse({'response': None})
+    
+    # it is now ready, turn it off
+    logging.debug("unsetting diagnostics flag")
+    hub.diagnostics_ready(False)
+
+    ## add code here to query
+    report = CommandDiagnosticsResponse.objects.filter(hub=hub).first()
+    return JsonResponse({'response': None if not report else report.report})
+
+def ajax_diagnostics_report(request):
     """
-    will supply hub_id in request and must be used to initiate
-    communication with hub and perform test connection command
+    asks hub for general diagnostics report and connection status
     """
     hub_id = request.GET.get('hub_id')
+
     if not hub_id:
         return JsonResponse({'response': "hub_id not found in request"})
 
-def ajax_check_for_nodes(request):
-    """
-    check for nodes and return
-    """
-    nodes = NodeModule.objects.all()
-
-    node_j = {'nodes': list()}
-    for node in nodes:
-        url_path = reverse('node_remove', args=[str(node.address)])
-        logging.error(url_path)
-        node_j['nodes'].append({
-            'address64': node.address,
-            'node_id': node.node_id,
-            'remove_url': str(url_path),
-        })
-    return JsonResponse(node_j)
-
+    hub = ClientHubDevice.objects.filter(hub_id=hub_id).first()
+    cmd = {str(hub.hub_id): EDCommand.diagnostics}
+    success = send_proxy_data(_REDIS_POOL, cmd)
+    if not success:
+        err_msg = "Unable to send data to proxy server"
+        logging.error(err_msg)
+        return JsonResponse({'response': err_msg})
+    
+    return JsonResponse({'response': str(success)})
 
 def ajax_discover_nodes(request):
     """
@@ -81,6 +93,7 @@ def ajax_discover_nodes(request):
     hub = ClientHubDevice.objects.filter(hub_id=hub_id).first()
 
     # with redis.Redis(connection_pool=_REDIS_POOL) as proxy:
+    # cmd to redis must be {hub_id: value of EDCommand}
     cmd = {str(hub.hub_id): EDCommand.discovery.value}
     #     proxy.publish(CONFIG.proxy.channel, json.dumps(cmd))
     success = send_proxy_data(_REDIS_POOL, cmd)
@@ -91,6 +104,23 @@ def ajax_discover_nodes(request):
 
     return JsonResponse({'response': str(success)})
 
+def ajax_check_for_nodes(request):
+    """
+    check for nodes and return
+    """
+        
+    nodes = NodeModule.objects.all()
+
+    node_j = {'nodes': list()}
+    for node in nodes:
+        url_path = reverse('node_remove', args=[str(node.address)])
+        logging.error(url_path)
+        node_j['nodes'].append({
+            'address64': node.address,
+            'node_id': node.node_id,
+            'remove_url': str(url_path),
+        })
+    return JsonResponse(node_j)
 
 class TestView(View):
     def get(self, request):

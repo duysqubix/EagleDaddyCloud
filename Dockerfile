@@ -7,7 +7,7 @@ RUN apt install -y libpq-dev libyaml-dev netcat
 
 COPY requirements.txt .
 
-RUN pip install -r requirements.txt
+RUN pip install -U -r requirements.txt
 
 COPY . .
 

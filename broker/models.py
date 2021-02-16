@@ -1,3 +1,4 @@
+import logging
 from edcomms import EDChannel
 from django.db import models
 from django.utils import timezone
@@ -33,6 +34,51 @@ class ClientHubDevice(models.Model):
         return EDChannel(f"{self.hub_id}/", root=root)
 
 
+    def _get_associated_flags_record(self):
+        flags: CommandResponseFlag = CommandResponseFlag.objects.filter(hub=self).first()
+        if not flags:
+            logging.critical("hub does not have command ready flags record, IPC will not work as intended")
+            raise Exception()
+
+        return flags
+
+    def _set_or_get_flag(self, flagname, set_):
+        flags = self._get_associated_flags_record()
+        if set_ is None:
+            return flags.__dict__[flagname]
+
+        flags.__dict__[flagname] = set_
+        flags.save()
+
+    def discover_ready(self, set_=None):
+        return self._set_or_get_flag('discover_ready', set_=set_)
+
+    def diagnostics_ready(self, set_=None):
+        return self._set_or_get_flag('diagnostic_ready', set_=set_)
+
+
+class CommandResponseFlag(models.Model):
+    """
+    A table that acts much like a bitflag.
+    Each row is attached to a single hub with the columns
+    representing a command ready. By default,
+    each column is set to False. Only the MQTT manager
+    has (should) the ability to toggle the flags for each
+    command indicating the response is ready for retrieval by the web
+    app.
+
+    """
+    hub = models.ForeignKey(ClientHubDevice, null=False, on_delete=models.CASCADE)
+    discover_ready = models.BooleanField(default=False)
+    diagnostic_ready = models.BooleanField(default=False)
+
+class CommandDiagnosticsResponse(models.Model):
+    """
+    Table to store raw xml output from hub
+    """
+    hub = models.ForeignKey(ClientHubDevice, null=False, on_delete=models.CASCADE)
+    report = models.JSONField()
+
 class NodeModule(models.Model):
     """
     Represents the individual remote nodes
@@ -50,8 +96,11 @@ class NodeModule(models.Model):
     operating_mode = models.CharField(max_length=512)
     network_id = models.CharField(max_length=512)
 
+
+
     def __str__(self) -> str:
         return repr(self)
 
     def __repr__(self) -> str:
         return f"<Node {self.node_id}>"
+

@@ -15,7 +15,8 @@ urlpatterns = [
 
      #### ajax views
      path('discover', views.ajax_discover_nodes, name='ajax_discover_nodes'),
-     path('test_connection', views.ajax_check_node_connection, name='ajax_check_node_connection'),
+     path('diag_report', views.ajax_diagnostics_report, name='ajax_diagnostics_report'),
+     path('diag_rcv', views.ajax_diagnostics_rcv, name='ajax_diagnostics_rcv'),
      path('check_for_nodes/',
           views.ajax_check_for_nodes,
           name='ajax_check_for_nodes'),

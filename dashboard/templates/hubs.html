@@ -30,6 +30,9 @@
   async function ajax_rqst_nodes() {
     return $.ajax({
       url: "{% url 'ajax_check_for_nodes' %}",
+      data: {
+        hub_id: $("#hub_id").val(),
+      },
       success: function (response) {
         var nodes = response.nodes;
         if (nodes.length == 0) {
@@ -67,15 +70,9 @@
     });
   }
 
-
-  var test_node_connection_handler = function (e) {
-    return $.ajax({
-      data: {
-        'hub_id': $("#hub_id").val()
-      },
-      url: "{% url 'ajax_check_node_connection' %}"
-    });
-  };
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
 
   var discover_handler = function (e) {
     /**
@@ -108,13 +105,9 @@
       });
     }
 
-    function sleep(ms) {
-      return new Promise((resolve) => setTimeout(resolve, ms));
-    }
-
     async function poll_nodes() {
       var query_time = 2; // s
-      var timeout = 60; // s
+      var timeout = 180; // s
 
       var total_ticks = timeout / query_time;
 
@@ -134,10 +127,71 @@
     poll_nodes();
   };
 
+  var diagnostics_report_handler = function (e) {
+
+    // each of these ajax request pertain to a command
+    // valid on each hub, maybe refactor and create static 
+    //  function so that web app can execute call
+    async function diagnostics_rqst() {
+      $.ajax({
+        data: {
+          hub_id: $("#hub_id").val(),
+        },
+        url: "{% url 'ajax_diagnostics_report' %}",
+        success: function (response) {
+          console.log("sending diagnostics command " + response);
+        },
+
+        error: function (response) {
+          console.log(response.responseJSON.errors);
+        },
+      });
+    }
+
+    async function diagnostics_poll() {
+      var ajxcall = await $.ajax({
+        data: {
+          hub_id: $("#hub_id").val(),
+        },
+        url: "{% url 'ajax_diagnostics_rcv' %}",
+        success: function (response) {
+          return response;
+        }
+      })
+      return ajxcall;
+    }
+
+    async function poll_diag_report() {
+      var query_time = 1; // s
+      var timeout = 60; // s
+
+      var total_ticks = timeout / query_time;
+
+      var tick = 0;
+      var result;
+      while (tick <= total_ticks) {
+        console.log("Polling for diagnostics flag");
+        result = await diagnostics_poll();
+        console.log(result);
+        if (result !== undefined || result !== null) {
+          break;
+        }
+        await sleep(query_time * 1000);
+        tick++;
+      }
+
+      var diag_report = result.response;
+      $("#diag_hub_body").html(JSON.stringify(diag_report, null, 2));
+    }
+
+    diagnostics_rqst();
+    poll_diag_report();
+  }
+
+
   $(document).ready(function () {
     $("#discover_btn").one("click", discover_handler);
-    $("$test_conn_btn").one("click", test_node_connection_handler)
-
+    $("#diagnostics_report_btn").one("click", diagnostics_report_handler);
     var node_results = ajax_rqst_nodes();
   });
 
@@ -176,22 +230,24 @@
     <button type="button" class="btn btn-secondary mt-2 shadow" data-toggle="modal" data-target="#hub_meta_data">
       Info
     </button>
-
-    <button id="test_conn_btn" type="button" class="btn btn-secondary btn-sm mt-2 shadow" data-toggle="modal"
-      data-target="#node_conn_test">
-      Test
+    <button id="diagnostics_report_btn" type="button" class="btn btn-secondary mt-2 shadow" data-toggle="modal"
+      data-target="#hub_diagnostics_data">
+      Diagnostics Report
     </button>
-    <!-- Test Node Modal -->
-    <div class="modal fade" id="node_conn_test" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <!-- Diagnostics Node Modal -->
+    <div class="modal fade" id="hub_diagnostics_data" tabindex="-1" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">
-              Node Connectivity Check
+              Hub Diagnostics Report
             </h5>
           </div>
           <div class="modal-body" id="modal_test_conn_node_body">
             <!-- This is the area that will populate by ajax when testing connection with nodes-->
+            <pre><code id="diag_hub_body"></code></pre>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">

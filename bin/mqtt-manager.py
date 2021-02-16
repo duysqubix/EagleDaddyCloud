@@ -15,7 +15,7 @@ django.setup()
 from django.utils import timezone
 from EagleDaddyCloud.settings import CONFIG
 from utils.utils import is_iter, lazy_property, make_iter
-from broker.models import ClientHubDevice, NodeModule
+from broker.models import ClientHubDevice, CommandDiagnosticsResponse, CommandResponseFlag, NodeModule
 
 #TODO: convert this in edcomms package to change root channel
 # globally
@@ -51,6 +51,7 @@ class DiretMessageCallback(MessageCallback):
 
         if cmd == EDCommand.pong:
             logging.debug("{self.packet.sender_id} responded to PING")
+
         elif cmd == EDCommand.discovery:
 
             # we are expecting nodes to a list of dictionaries
@@ -66,12 +67,25 @@ class DiretMessageCallback(MessageCallback):
                     'node_id': node['node_id'],
                     'operating_mode': node['operating_mode'],
                     'network_id': node['network_id'],
-                    'hub_node_id': node['parent_device']
+                    'hub_node_id': node['parent_device'],
                 }
 
                 result = NodeModule.objects.update_or_create(
                     hub=hub, address=node['address64'], defaults=defaults)
                 logging.debug(f"Node creation, {result}, {node['address64']}")
+
+            # logging.debug("setting discovery ready flag")
+            # hub.discover_ready(True)
+        
+        elif cmd == EDCommand.diagnostics: 
+            """ expecting a diagnostics report from hub """
+            payload = self.packet.payload
+            logging.info(payload)
+            report_diag = json.loads(payload)
+            report_status = CommandDiagnosticsResponse.objects.update_or_create(hub=hub, defaults={'hub': hub, 'report': report_diag})
+            logging.debug(report_status)
+            logging.debug("setting diagnostics flag")
+            hub.diagnostics_ready(True)
 
 
 class AnnounceCallback(MessageCallback):
@@ -99,6 +113,11 @@ class AnnounceCallback(MessageCallback):
                                       hub_name=hub_name,
                                       last_checkin=timezone.now())
             new_hub.save()
+
+            # attach new command response flag record to this  hub
+            flags = CommandResponseFlag(hub=new_hub)
+            flags.save()
+
             channel = EDChannel(f"{hub_id}/")
 
             logging.info(f"Subscribing to hubs' channel: {channel}")
