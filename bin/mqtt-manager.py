@@ -6,6 +6,8 @@ import json
 import os
 import django
 import uuid
+
+from datetime import datetime
 from edcomms import EDChannel, EDClient, EDPacket, EDCommand, MessageCallback, _ROOT_CHANNEL
 
 sys.path.insert(0, sys.path[0] + "/..")
@@ -83,9 +85,10 @@ class DiretMessageCallback(MessageCallback):
             logging.info(payload)
             report_diag = json.loads(payload)
             report_status = CommandDiagnosticsResponse.objects.update_or_create(hub=hub, defaults={'hub': hub, 'report': report_diag})
+            logging.debug(f"Created/updated diag report: {datetime.now()}")
             logging.debug(report_status)
-            logging.debug("setting diagnostics flag")
             hub.diagnostics_ready(True)
+            logging.info(f"setting diagnostics flag @ {datetime.now()},{hub.diagnostics_ready()}")
 
 
 class AnnounceCallback(MessageCallback):

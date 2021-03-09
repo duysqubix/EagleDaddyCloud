@@ -113,13 +113,13 @@
 
       var tick = 0;
       while (tick <= total_ticks) {
+        await sleep(query_time * 1000);
         console.log("Polling for nodes");
         var result = await ajax_rqst_nodes();
         console.log(result);
         if (result.nodes.length > 0) {
           break;
         }
-        await sleep(query_time * 1000);
         tick++;
       }
     }
@@ -128,10 +128,17 @@
   };
 
   var diagnostics_report_handler = function (e) {
+    /**
+    
+    Request network diagnostic information.
 
-    // each of these ajax request pertain to a command
-    // valid on each hub, maybe refactor and create static 
-    //  function so that web app can execute call
+    Information requested will be:
+    * serial information of hub,
+    * fw version
+    * hw version 
+    * connection strengths between hubs
+
+    **/
     async function diagnostics_rqst() {
       $.ajax({
         data: {
@@ -170,19 +177,131 @@
       var tick = 0;
       var result;
       while (tick <= total_ticks) {
+        await sleep(query_time * 1000);
+
         console.log("Polling for diagnostics flag");
         result = await diagnostics_poll();
         console.log(result);
         if (result !== undefined || result !== null) {
           break;
         }
-        await sleep(query_time * 1000);
         tick++;
       }
 
-      var diag_report = result.response;
-      $("#diag_hub_body").html(JSON.stringify(diag_report, null, 2));
+      await parse_results(result.response);
+
     }
+
+    async function parse_results(response) {
+      var diag_report = response;
+      var network = diag_report['network_network'];
+      var devices = network['devices']; // list 
+      var protocol = network['protocol'];
+
+
+      var hub = null;
+      // not safe
+      for (idx in devices) {
+        if (devices[idx]['role'] == 'Router') {
+          hub = devices[idx];
+          break;
+        }
+      }
+
+      var network_id = hub['nwk_address'];
+      var hw = hub['hw_version'];
+      var fw = hub['fw_version'];
+
+      var header_html = `
+      <p class="lead">FW: 0x{} <br> HW: 0x{} <br>NetworkID: {}</p>
+      `.format(
+        fw, hw, network_id
+      )
+
+      $("#diag_hub_header").html(
+        header_html
+      );
+
+      var rssi_mapping = {
+        30: 'amazing',
+        67: 'very good',
+        70: 'okay',
+        80: 'not good',
+        90: 'unusable'
+      }
+
+      var device_mapping = {}
+      for (idx in devices) {
+        var device = devices[idx];
+
+        if (device['role'] == 'Router') {
+          device_mapping['parent'] = device['addr'];
+        }
+        device_mapping[device['addr']] = device['node_id'];
+      }
+      var table_html = ""
+      // iterate through connections
+      var cntr = 0;
+      for (idx in devices) {
+        var device = devices[idx];
+        console.log(device['connections']);
+        if (device['connections'].length > 0) {
+          connections = device['connections'];
+          var node_a = device['addr'];
+          if (node_a == device_mapping['parent']) {
+            node_a = "Main Hub";
+          } else {
+            node_a = device_mapping[node_a];
+          }
+
+          for (idy in connections) {
+            var conn = connections[idy];
+            var node_b = conn['addr'];
+
+            if (node_b == device_mapping['parent']) {
+              node_b = "Main Hub";
+            } else {
+              node_b = device_mapping[node_b];
+            }
+
+            var rssi = conn['strength'];
+            try {
+              rssi = Number(rssi) * -1;
+
+              for (rssi_level in rssi_mapping) {
+                if (rssi <= rssi_level) {
+                  rssi = rssi_mapping[rssi_level];
+                  break;
+                }
+              }
+            } catch (err) {
+              rssi = "Unknown";
+            }
+            console.log(rssi);
+            table_html += `
+              <tr>
+                <th scope="row">{cntr}</th>
+                <td>{node_a}</td>
+                <td>{node_b}</td>
+                <td>{rssi}</td>
+              <tr>
+              `.format({
+              'node_a': node_a,
+              'node_b': node_b,
+              'rssi': rssi,
+              'cntr': cntr++,
+            })
+
+          }
+        }
+      }
+      console.log(table_html)
+      $("#diag_hub_table").html(
+        table_html
+      );
+    }
+
+
 
     diagnostics_rqst();
     poll_diag_report();
@@ -244,10 +363,21 @@
             <h5 class="modal-title" id="exampleModalLabel">
               Hub Diagnostics Report
             </h5>
+            <span id="diag_hub_header"></span>
           </div>
           <div class="modal-body" id="modal_test_conn_node_body">
-            <!-- This is the area that will populate by ajax when testing connection with nodes-->
-            <pre><code id="diag_hub_body"></code></pre>
+            <h3>Connection Status</h3>
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Node A</th>
+                  <th scope="col">Node B</th>
+                  <th scope="col">Strength (RSSI)</th>
+                </tr>
+              </thead>
+              <tbody id="diag_hub_table"></tbody>
+            </table>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">

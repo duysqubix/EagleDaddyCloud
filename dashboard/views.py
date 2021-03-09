@@ -1,5 +1,7 @@
 import redis
 import logging
+
+from datetime import datetime
 from django.views.generic.base import RedirectView
 from dashboard.forms import NewHubConnectForm
 from django.http.response import HttpResponseRedirect, JsonResponse
@@ -56,11 +58,14 @@ def ajax_diagnostics_rcv(request):
         return JsonResponse({'response': None})
     
     # it is now ready, turn it off
-    logging.debug("unsetting diagnostics flag")
-    hub.diagnostics_ready(False)
+    with open('test_ajax.output', 'w') as f:
+        print(f"is diagnostics flag set? : {hub.diagnostics_ready()}", file=f)
+        print(f"unsetting diagnostics flag @ {datetime.now()}",file=f)
+        hub.diagnostics_ready(False)
 
-    ## add code here to query
-    report = CommandDiagnosticsResponse.objects.filter(hub=hub).first()
+        ## add code here to query
+        report = CommandDiagnosticsResponse.objects.filter(hub=hub).first()
+        print(f"queried report: {datetime.now()},{hub.diagnostics_ready()}", file=f)
     return JsonResponse({'response': None if not report else report.report})
 
 def ajax_diagnostics_report(request):
